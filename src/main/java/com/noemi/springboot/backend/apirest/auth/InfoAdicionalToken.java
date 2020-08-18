@@ -1,0 +1,43 @@
+package com.noemi.springboot.backend.apirest.auth;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+import org.springframework.stereotype.Component;
+
+import com.noemi.springboot.backend.apirest.models.entity.Usuario;
+import com.noemi.springboot.backend.apirest.models.services.IUsuarioService;
+
+@Component
+public class InfoAdicionalToken implements TokenEnhancer {
+
+	 @Autowired
+	 private IUsuarioService usuarioService;
+	
+	
+	@Override
+	public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
+		// TODO Auto-generated method stub
+		
+		Usuario usuario = usuarioService.findByUsername(authentication.getName());
+		
+		Map<String, Object> info = new HashMap<>();  //Hashmap para información adicional.
+		
+		info.put("info adicional", "Hola que tal ".concat(authentication.getName()));  // información adicional
+		info.put("nombre", usuario.getNombre()); 
+		info.put("apellido", usuario.getApellido()); 
+		info.put("email", usuario.getEmail()); 
+		
+		//Se le agrega información adicional al token.
+		
+		((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(info);
+		
+		return accessToken;
+	}
+
+}
