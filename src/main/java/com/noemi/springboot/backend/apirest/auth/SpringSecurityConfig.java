@@ -12,7 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-@EnableGlobalMethodSecurity(securedEnabled = true)  //Con esto se habilita la seguridad mediante anotations en los REST-CONTROLLERS
+@EnableGlobalMethodSecurity(securedEnabled = true)  //Con esto se habilita la seguridad mediante anotations en los REST-CONTROLLERS 
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{  //Configuración de seguridad de Spring.
 
